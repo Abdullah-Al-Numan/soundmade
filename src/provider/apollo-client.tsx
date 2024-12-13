@@ -34,7 +34,7 @@ export default function ApolloClientProvider({
 
   const Dispatch = useDispatch();
   const httpLink = createHttpLink({
-    uri: process.env.NEXT_PUBLIC_SERVER_URL
+    uri: "https://server.soundmade.com/"
   });
 
   const errorLink = onError(({ graphQLErrors, forward, operation }) => {
