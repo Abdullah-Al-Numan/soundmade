@@ -8,24 +8,16 @@ import { RootState } from "@/redux/store";
 import { setOpenSidebar } from "@/redux/features/global/globalSlice";
 import { setSession } from "@/redux/features/auth/authSlice";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@apollo/client";
-import { LOGOUT_MUTATION } from "@/gql";
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const { isOpenSidebar } = useSelector((state: RootState) => state.global);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
-  const [logoutMutation] = useMutation(LOGOUT_MUTATION);
   const session = useSelector((state: RootState) => state.auth.session);
 
   const handleLogout = async () => {
     try {
-      if (session?.refresh_token) {
-        await logoutMutation({
-          variables: { refreshToken: session.refresh_token },
-        });
-      }
       router.replace("/login");
       localStorage.removeItem("session");
       dispatch(setSession(null));
