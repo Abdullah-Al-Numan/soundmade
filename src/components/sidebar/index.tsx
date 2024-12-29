@@ -15,7 +15,7 @@ const Sidebar: FC = () => {
     <aside
       id="sidebar"
       className={`fixed z-20 h-full top-0 left-0 transition-width ease-in-out duration-300 mt-24 ${
-        isOpenSidebar ? "w-full" : "w-0"
+        isOpenSidebar ? "w-72" : "w-0"
       } bg-white border-r border-gray-200 overflow-hidden`}
       aria-label="Sidebar"
     >
