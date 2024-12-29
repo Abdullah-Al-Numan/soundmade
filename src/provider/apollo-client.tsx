@@ -58,7 +58,8 @@ export default function ApolloClientProvider({
       operation.setContext(({ headers = {} }) => ({
         headers: {
           ...headers,
-          authorization: `Bearer ${accessToken}`
+          authorization: `Bearer ${accessToken}`,
+          "X-User-Id": session?.user.id || ""
         }
       }));
 
@@ -72,7 +73,8 @@ export default function ApolloClientProvider({
         ...headers,
         authorization: session?.access_token
           ? `Bearer ${session.access_token}`
-          : ""
+          : "",
+          "X-User-Id": session?.user.id || ""
       }
     };
   });
