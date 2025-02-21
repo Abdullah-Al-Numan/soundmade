@@ -6,10 +6,11 @@ import { GET_USER_COUNTS } from "@/gql";
 
 export default function Home() {
   const { data, loading } = useQuery(GET_USER_COUNTS, {
-    fetchPolicy: "network-only"
+    fetchPolicy: "network-only",
   });
   const router = useRouter();
-  const { totalUserCount,
+  const {
+    totalUserCount,
     userCount,
     artistCount,
     b2bCount,
@@ -17,56 +18,56 @@ export default function Home() {
     premiumCount,
     goldCount,
     approvedArtistCount,
-    unapprovedArtistCount } = data?.getUserCounts || {};
+    unapprovedArtistCount,
+  } = data?.getUserCounts || {};
 
-   const dashboardCount = [
-      {
-        title: "Total",
-        count: totalUserCount,
-        link: "/",
-      },
-      {
-        title: "Users",
-        count: userCount,
-        link: "/",
-      },
-      {
-        title: "Artists",
-        count: artistCount,
-        link: "/",
-      },
-      {
-        title: "B2B",
-        count: b2bCount,
-        link: "/",
-      },
-      {
-        title: "Unapproved artists",
-        count: unapprovedArtistCount,
-        link: "/unapproved-artist",
-      },
-      {
-        title: "Approved artists",
-        count: approvedArtistCount,
-        link: "/",
-      },
-      {
-        title: "Freemium users",
-        count: basicCount,
-        link: "/",
-      },
-      {
-        title: "Premium users",
-        count: premiumCount,
-        link: "/",
-      },
-      {
-        title: "Gold users",
-        count: goldCount,
-        link: "/",
-      }
-    ];
-    
+  const dashboardCount = [
+    {
+      title: "Total",
+      count: totalUserCount,
+      link: "/",
+    },
+    {
+      title: "Users",
+      count: userCount,
+      link: "/",
+    },
+    {
+      title: "Artists",
+      count: artistCount,
+      link: "/",
+    },
+    {
+      title: "B2B",
+      count: b2bCount,
+      link: "/",
+    },
+    {
+      title: "Unapproved artists",
+      count: unapprovedArtistCount,
+      link: "/unapproved-artist",
+    },
+    {
+      title: "Approved artists",
+      count: approvedArtistCount,
+      link: "/approved-artist",
+    },
+    {
+      title: "Freemium users",
+      count: basicCount,
+      link: "/",
+    },
+    {
+      title: "Premium users",
+      count: premiumCount,
+      link: "/",
+    },
+    {
+      title: "Gold users",
+      count: goldCount,
+      link: "/",
+    },
+  ];
 
   return (
     <>

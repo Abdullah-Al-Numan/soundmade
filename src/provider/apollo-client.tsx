@@ -32,9 +32,8 @@ export default function ApolloClientProvider({
     }
   }, [router, dispatch, session?.access_token]);
 
-  const Dispatch = useDispatch();
   const httpLink = createHttpLink({
-    uri: "https://server.soundmade.com/"
+    uri: process.env.NEXT_PUBLIC_SERVER_URL
   });
 
   const errorLink = onError(({ graphQLErrors, forward, operation }) => {
@@ -49,21 +48,24 @@ export default function ApolloClientProvider({
       const updatedSession = {
         ...session,
         access_token: accessToken,
-        refresh_token: session?.refresh_token || "",
         user: session?.user || {} as UserType
       };
-      Dispatch(setSession(updatedSession));
+      dispatch(setSession(updatedSession));
       localStorage.setItem("session", JSON.stringify(updatedSession));
 
       operation.setContext(({ headers = {} }) => ({
         headers: {
           ...headers,
           authorization: `Bearer ${accessToken}`,
-          "X-User-Id": session?.user.id || ""
         }
       }));
 
       return forward(operation);
+    }
+    if (errorMessage.includes("UNAUTHORIZED:")) {
+      router.replace("/login");
+      localStorage.removeItem("session");
+      dispatch(setSession(null));
     }
   });
 
@@ -74,7 +76,6 @@ export default function ApolloClientProvider({
         authorization: session?.access_token
           ? `Bearer ${session.access_token}`
           : "",
-          "X-User-Id": session?.user.id || ""
       }
     };
   });

@@ -49,3 +49,29 @@ export const GET_USER_COUNTS = gql`
     }
   }
 `;
+
+export const GET_APPROVED_ARTIST_LIST = gql`
+  query GetApprovedArtist {
+    getApprovedArtist {
+      id
+      username
+      fullName
+      email
+      profile {
+        bio
+        profilePic
+      }
+      location {
+        name
+      }
+      validation {
+        phoneNumber
+        spotifyLink,
+        youtubeLink,
+        facebookLink,
+        instagramLink,
+        soundcloudLink,
+      }
+    }
+  }
+`;

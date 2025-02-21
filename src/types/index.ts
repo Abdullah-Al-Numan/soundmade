@@ -10,7 +10,6 @@ export type UserType = {
 
 export type SessionType = {
   access_token: string;
-  refresh_token: string;
   user: UserType;
 };
 
@@ -59,4 +58,12 @@ export interface ArtistData {
   location?: ArtistLocation;
   validation?: ArtistValidation;
 }
+
+type GraphQLError = {
+  message: string;
+};
+
+export type GraphQLResponseError = {
+  graphQLErrors: GraphQLError[];
+};
 

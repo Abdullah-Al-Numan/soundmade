@@ -2,7 +2,7 @@ interface IButton {
   title?: string;
   name?: string;
   loadingTitle?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
   position?: string;

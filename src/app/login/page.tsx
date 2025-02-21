@@ -6,10 +6,12 @@ import { LOGIN_MUTATION } from "@/gql";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setSession } from "@/redux/features/auth/authSlice";
-import { SessionType } from "@/types";
+import { GraphQLResponseError, SessionType } from "@/types";
 import Button from "@/components/button";
+import ErrorMessage from "@/components/errorMessage";
 
 const Login = () => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const dispatch = useDispatch();
   const router = useRouter();
   const [login] = useMutation(LOGIN_MUTATION);
@@ -17,15 +19,14 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      setIsLoading(true);
       e.preventDefault();
+      setIsLoading(true);
       const target = e.target as typeof e.target & {
         email: { value: string };
         password: { value: string };
       };
       const email = target.email.value;
       const password = target.password.value;
-      console.log(email, password);
       const response = await login({
         variables: {
           loginInput: {
@@ -41,7 +42,8 @@ const Login = () => {
       router.push("/");
     } catch (error) {
       setIsLoading(false);
-      console.error("login failed:", error);
+      const graphQLError = (error as GraphQLResponseError)?.graphQLErrors?.[0]?.message;
+      setErrorMessage(graphQLError || "Login failed, please try again.");
     }
   };
 
@@ -107,6 +109,7 @@ const Login = () => {
             </div>
           </div>
           <div>
+            <ErrorMessage errorMessage={errorMessage} />
             <Button
               customClass="w-full"
               type="submit"

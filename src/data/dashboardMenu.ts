@@ -18,12 +18,28 @@ export const sidebarMenuData: Menu[] = [
     submenu: [
       {
         id: "3",
+        label: "Create Artist",
+        href: "/create-artist",
+        icon: "bi bi-list",
+        active: false,
+        submenu: [],
+      },
+      {
+        id: "4",
         label: "Unapproved Artist",
         href: "/unapproved-artist",
         icon: "bi bi-list",
         active: false,
         submenu: [],
-      }
+      },
+      {
+        id: "5",
+        label: "Approved Artist",
+        href: "/approved-artist",
+        icon: "bi bi-list",
+        active: false,
+        submenu: [],
+      },
     ],
   },
 ];
