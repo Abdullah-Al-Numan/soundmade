@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSession } from "@/redux/features/auth/authSlice";
 import { RootState } from "@/redux/store";
 import { GraphQLResponseError, SessionType } from "@/types";
-import Button from "@/components/Button";
+import Button from "@/components/CustomButton";
 import ErrorMessage from "@/components/errorMessage";
 
 const Login = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "@/components/Button";
+import Button from "@/components/CustomButton";
 import PaginatedTable from "@/components/paginatedTable";
 import { GET_APPROVED_ARTIST_LIST } from "@/gql/artist";
 import { getMediaUrl } from "@/utils/getMediaUrl";
