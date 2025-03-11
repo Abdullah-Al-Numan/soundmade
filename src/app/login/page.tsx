@@ -1,13 +1,14 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "@/gql";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSession } from "@/redux/features/auth/authSlice";
+import { RootState } from "@/redux/store";
 import { GraphQLResponseError, SessionType } from "@/types";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import ErrorMessage from "@/components/errorMessage";
 
 const Login = () => {
@@ -16,6 +17,14 @@ const Login = () => {
   const router = useRouter();
   const [login] = useMutation(LOGIN_MUTATION);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const session = useSelector((state: RootState) => state.auth.session);
+
+  useEffect(() => {
+    const storedSession = localStorage.getItem("session");
+    if (session || storedSession) {
+      router.push("/");
+    }
+  }, [session, router]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -37,8 +46,8 @@ const Login = () => {
       });
       const session = response?.data?.login as SessionType;
       dispatch(setSession(session));
-      setIsLoading(false);
       localStorage.setItem("session", JSON.stringify(session));
+      setIsLoading(false);
       router.push("/");
     } catch (error) {
       setIsLoading(false);
@@ -113,8 +122,8 @@ const Login = () => {
             <Button
               customClass="w-full"
               type="submit"
-              title="submit"
-              loadingTitle="Signing in"
+              title="Sign In"
+              loadingTitle="Signing in..."
               loading={isLoading}
             />
           </div>

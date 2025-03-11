@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import Breadcrumb from "@/components/breadcrumb";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import PaginatedTable from "@/components/paginatedTable";
 import { APPROVED_ARTIST, GET_UNAPPROVED_ARTIST_LIST } from "@/gql/artist";
 import { getMediaUrl } from "@/utils/getMediaUrl";

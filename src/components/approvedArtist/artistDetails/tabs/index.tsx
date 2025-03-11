@@ -5,6 +5,7 @@ import { ArtistData } from "@/types";
 import POST from "../../timeline/post";
 import Video from "../../timeline/video";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CommingSoon from "@/components/commingSoon";
 
 const PostTabs = () => {
   const searchParams = useSearchParams();
@@ -30,17 +31,17 @@ const PostTabs = () => {
     {
       value: "single",
       label: "Single",
-      content: "Make changes to your single here.",
+      content: <CommingSoon />,
     },
     {
       value: "albums",
       label: "Albums",
-      content: "Make changes to your albums here.",
+      content: <CommingSoon />,
     },
     {
       value: "events",
       label: "Events",
-      content: "Make changes to your events here.",
+      content: <CommingSoon />,
     },
   ];
 

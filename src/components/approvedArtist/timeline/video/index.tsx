@@ -8,9 +8,11 @@ import { uploadFile } from "@/utils/aws";
 import { CREATE_VIDEO } from "@/gql/video";
 import { useSearchParams } from "next/navigation";
 import { ArtistData } from "@/types";
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_MB } from "@/utils/fileSizeLimitation";
 
 const Video = () => {
   const [videos, setVideos] = useState<string[]>([]);
+  const [videoFiles, setVideoFiles] = useState<File[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isPaid, setIsPaid] = useState(false);
@@ -27,53 +29,64 @@ const Video = () => {
     decodeURIComponent(artistDataString)
   );
 
-  const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
+  
     const files = Array.from(event.target.files);
-    const newVideos = files.map((file) => {
-      const reader = new FileReader();
-      return new Promise((resolve) => {
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-        reader.readAsDataURL(file);
-      });
+  
+    const validFiles = files.filter((file) => {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`File size must be less than ${MAX_FILE_SIZE_MB}MB`);
+        return false;
+      }
+      return true;
     });
-    Promise.all(newVideos).then((videoData) =>
-      setVideos([...videos, ...videoData] as string[])
+  
+    const videoPromises = validFiles.map((file) => 
+      new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      })
     );
+    setVideoFiles(files)
+  
+    try {
+      const videoData = await Promise.all(videoPromises);
+      setVideos((prevVideos) => [...prevVideos, ...videoData]);
+    } catch (error) {
+      console.error("Error processing video files:", error);
+    }
   };
 
   const handleSubmit = async () => {
+    if (!videos.length) {
+      alert("Please upload a video.");
+      return;
+    }
+  
+    setLoading(true);
+  
     try {
-      if (!videos.length) {
-        alert("Please upload a video.");
-        return;
-      }
-
-      setLoading(true);
-
-      const videoBlob = await (await fetch(videos[0])).blob();
-      const response = await uploadFile(videoBlob, "video.mp4", "video/mp4");
-
-      const videoData = {
-        userId: artistData.id,
-        title,
-        description,
-        video: response.Key,
-        isPublished: true,
-        isPaid,
-      };
-
+      const file = videoFiles[0];
+      const videoBlob = await fetch(videos[0]).then(res => res.blob());
+  
+      const response = await uploadFile(videoBlob, file.name, file.type);
+  
       await createVideo({
-        variables: { createVideoInput: videoData },
+        variables: {
+          createVideoInput: {
+            userId: artistData.id,
+            title,
+            description,
+            video: response.Key,
+            isPublished: true,
+            isPaid,
+          },
+        },
       });
-
-      setVideos([]);
-      setTitle("");
-      setDescription("");
-      setIsPaid(false);
-
+  
+      resetForm();
       alert("Video published successfully.");
     } catch (error) {
       console.error("Error submitting video:", error);
@@ -81,6 +94,14 @@ const Video = () => {
     } finally {
       setLoading(false);
     }
+  };
+  
+  const resetForm = () => {
+    setVideos([]);
+    setVideoFiles([]);
+    setTitle("");
+    setDescription("");
+    setIsPaid(false);
   };
 
   return (
@@ -97,7 +118,7 @@ const Video = () => {
           <div className="flex flex-col items-center gap-2 text-gray-600">
             {videos.length > 0 ? (
               <video controls className="w-40 h-40 object-cover rounded-lg">
-                <source src={videos[0]} type="video/mp4" />
+                <source src={videos[0]} type={videoFiles[0]?.type} />
                 Your browser does not support the video tag.
               </video>
             ) : (

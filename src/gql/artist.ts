@@ -75,3 +75,11 @@ export const GET_APPROVED_ARTIST_LIST = gql`
     }
   }
 `;
+
+export const UPDATE_ARTIST_MUTATION = gql`
+  mutation UpdateArtist($updateArtistInput: UpdateArtistInput!) {
+    updateArtist(updateArtistInput: $updateArtistInput) {
+      message
+    }
+  }
+`;

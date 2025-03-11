@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import Card from "@/components/card";
 import { useQuery } from "@apollo/client";
 import { GET_USER_COUNTS } from "@/gql";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Home() {
   const { data, loading } = useQuery(GET_USER_COUNTS, {
@@ -72,8 +73,12 @@ export default function Home() {
   return (
     <>
       {loading ? (
-        <div className="p-6 text-center">
-          <p>Loading Dashboard Count</p>
+        <div className="flex flex-col space-y-3">
+          <Skeleton className="h-[125px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
         </div>
       ) : (
         <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

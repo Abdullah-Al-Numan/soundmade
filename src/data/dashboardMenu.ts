@@ -42,4 +42,21 @@ export const sidebarMenuData: Menu[] = [
       },
     ],
   },
+  {
+    id: "feed",
+    label: "Feed",
+    href: "",
+    icon: "bi bi-house",
+    active: false,
+    submenu: [
+      {
+        id: "post",
+        label: "Post",
+        href: "/feed/all-post",
+        icon: "bi bi-list",
+        active: false,
+        submenu: [],
+      },
+    ],
+  },
 ];

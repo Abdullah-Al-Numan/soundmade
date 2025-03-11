@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 import PaginatedTable from "@/components/paginatedTable";
 import { GET_APPROVED_ARTIST_LIST } from "@/gql/artist";
 import { getMediaUrl } from "@/utils/getMediaUrl";
@@ -8,9 +8,11 @@ import { useQuery } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import type { ArtistData } from "@/types";
 import { Input } from "../ui/input";
+import EditProfile from "./editProfile";
+import CustomeSkeleton from "../skeleton";
 
 const ApprovedArtist = () => {
-  const { data, loading, error } = useQuery<{
+  const { data, loading, error, refetch } = useQuery<{
     getApprovedArtist: ArtistData[];
   }>(GET_APPROVED_ARTIST_LIST, {
     fetchPolicy: "network-only",
@@ -18,11 +20,12 @@ const ApprovedArtist = () => {
 
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedArtist, setSelectedArtist] = useState<ArtistData | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const tableHeadData = ["SL", "Name", "Email", "Location", "Action"];
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+
+  if (loading) return <CustomeSkeleton />;
 
   if (error) {
     console.error("Error fetching data:", error);
@@ -43,6 +46,17 @@ const ApprovedArtist = () => {
         JSON.stringify(artist)
       )}`
     );
+  };
+
+  const handleEditDetails = (artist: ArtistData) => {
+    setSelectedArtist(artist);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedArtist(null);
+    refetch();
   };
 
   return (
@@ -95,10 +109,23 @@ const ApprovedArtist = () => {
                 title="View"
                 customClass="text-[8px] px-1.5 py-1"
               />
+              <Button
+                onClick={() => handleEditDetails(row)}
+                title="Edit"
+                customClass="text-[8px] px-1.5 py-1"
+              />
             </td>
           </tr>
         )}
       />
+
+      {isEditModalOpen && selectedArtist && (
+        <EditProfile
+          artistinfo={selectedArtist}
+          onClose={closeEditModal}
+          isEditModalOpen={isEditModalOpen}
+        />
+      )}
     </div>
   );
 };

@@ -40,13 +40,13 @@ interface ArtistLocation {
   name?: string;
 }
 
-interface ArtistValidation {
+export interface ArtistValidation {
   phoneNumber?: string;
-  spotifyLink: string,
-  youtubeLink: string,
-  facebookLink: string,
-  instagramLink: string,
-  soundcloudLink: string,
+  spotifyLink: string;
+  youtubeLink: string;
+  facebookLink: string;
+  instagramLink: string;
+  soundcloudLink: string;
 }
 
 export interface ArtistData {
@@ -67,3 +67,19 @@ export type GraphQLResponseError = {
   graphQLErrors: GraphQLError[];
 };
 
+export type ProfileEditType = {
+  artistinfo: {
+    id?: string;
+    fullName?: string;
+    username?: string;
+    email?: string;
+    location?: {
+      name?: string;
+    };
+    validation?: ArtistValidation;
+    profile?: {
+      profilePic?: string;
+    };
+  };
+  onClose: () => void;
+};

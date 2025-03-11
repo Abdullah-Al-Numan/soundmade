@@ -6,6 +6,7 @@ import ReduxProvider from "@/provider/redux";
 import { usePathname } from "next/navigation";
 import DashboardLayout from "@/components/dashboardLayout";
 import { metadata } from "./metadata";
+import { useEffect, useState } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,9 +24,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname(); // Get the current route
-
+  const pathname = usePathname();
   const isAuthPage = pathname === "/login";
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timeout);
+  }, [pathname]);
+
   return (
     <html lang="en">
       <head>
@@ -36,15 +43,27 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-800`}
       >
-        <ReduxProvider>
-          <ApolloClientProvider>
-            {isAuthPage ? (
-              <>{children}</>
-            ) : (
-              <DashboardLayout>{children}</DashboardLayout>
-            )}
-          </ApolloClientProvider>
-        </ReduxProvider>
+        {loading ? (
+          <>
+            <div className="loader-wrapper">
+              <div className="loader-container">
+                <div className="loader">
+                  <div className="loader-inner"></div>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <ReduxProvider>
+            <ApolloClientProvider>
+              {isAuthPage ? (
+                children
+              ) : (
+                <DashboardLayout>{children}</DashboardLayout>
+              )}
+            </ApolloClientProvider>
+          </ReduxProvider>
+        )}
       </body>
     </html>
   );
