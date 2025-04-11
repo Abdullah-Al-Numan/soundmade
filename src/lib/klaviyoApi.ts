@@ -11,15 +11,15 @@ const KLAVIYO_API_BASE_URL = "https://a.klaviyo.com/api"
  * Get headers for Klaviyo API requests
  */
 const getHeaders = () => {
-  if (!process.env.KLAVIYO_PRIVATE_KEY) {
-    console.error("❌ Missing required environment variable: KLAVIYO_PRIVATE_KEY");
+  if (!process.env.NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY) {
+    console.error("❌ Missing required environment variable: NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY");
     throw new Error("Server configuration error - Missing Klaviyo API key");
   }
   return {
     "accept": 'application/vnd.api+json',
     "revision": '2024-10-15',
     'content-type': 'application/vnd.api+json',
-    "Authorization": `Klaviyo-API-Key ${process.env.KLAVIYO_PRIVATE_KEY}`,
+    "Authorization": `Klaviyo-API-Key ${process.env.NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY}`,
   };
 };
 

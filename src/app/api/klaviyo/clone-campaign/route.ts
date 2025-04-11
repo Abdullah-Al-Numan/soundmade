@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         accept: 'application/vnd.api+json',
         revision: '2024-10-15',
         'content-type': 'application/vnd.api+json',
-        Authorization: `Klaviyo-API-Key ${process.env.KLAVIYO_PRIVATE_KEY}`,
+        Authorization: `Klaviyo-API-Key ${process.env.NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY}`,
       },
       body: JSON.stringify({
         data: {

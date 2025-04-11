@@ -18,7 +18,7 @@ export async function DELETE(request: Request) {
       headers: {
         accept: 'application/vnd.api+json',
         revision: '2024-10-15',
-        Authorization: `Klaviyo-API-Key ${process.env.KLAVIYO_PRIVATE_KEY}`,
+        Authorization: `Klaviyo-API-Key ${process.env.NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY}`,
       },
     };
 
