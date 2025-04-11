@@ -34,7 +34,6 @@ const MiddleForm = () => {
           placeholder="Select Language"
           value={language}
           onChange={setLanguage}
-          className={""}
         />
       </div>
       <div className="text-start my-2">
@@ -44,7 +43,6 @@ const MiddleForm = () => {
           placeholder="Select primary genre"
           value={primaryGenre}
           onChange={setPrimaryGenre}
-          className={""}
         />
       </div>
       <div className="text-start my-2">
@@ -54,7 +52,6 @@ const MiddleForm = () => {
           placeholder="Select secondary genre"
           value={secondaryGenre}
           onChange={setSecondaryGenre}
-          className={""}
         />
       </div>
       <div className="text-start my-2">

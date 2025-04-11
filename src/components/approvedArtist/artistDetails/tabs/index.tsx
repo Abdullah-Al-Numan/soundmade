@@ -1,13 +1,13 @@
 import React from "react";
-
 import { useSearchParams } from "next/navigation";
 import { ArtistData } from "@/types";
 import POST from "../../timeline/post";
 import Video from "../../timeline/video";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CommingSoon from "@/components/commingSoon";
+import { PostTabsProps } from "@/types";
 
-const PostTabs = () => {
+const PostTabs = ({ showTabsOnly = false, onTabChange }: PostTabsProps) => {
   const searchParams = useSearchParams();
   const artistDataString = searchParams.get("data");
   if (!artistDataString) {
@@ -18,31 +18,11 @@ const PostTabs = () => {
     decodeURIComponent(artistDataString)
   );
   const tabsData = [
-    {
-      value: "post",
-      label: "Post",
-      content: <POST />,
-    },
-    {
-      value: "video",
-      label: "Videos",
-      content: <Video />,
-    },
-    {
-      value: "single",
-      label: "Single",
-      content: <CommingSoon />,
-    },
-    {
-      value: "albums",
-      label: "Albums",
-      content: <CommingSoon />,
-    },
-    {
-      value: "events",
-      label: "Events",
-      content: <CommingSoon />,
-    },
+    { value: "post", label: "Post", content: <POST /> },
+    { value: "video", label: "Videos", content: <Video /> },
+    { value: "single", label: "Single", content: <CommingSoon /> },
+    { value: "albums", label: "Albums", content: <CommingSoon /> },
+    { value: "events", label: "Events", content: <CommingSoon /> },
   ];
 
   return (
@@ -55,7 +35,11 @@ const PostTabs = () => {
           </span>
         </p>
       </div>
-      <Tabs defaultValue={tabsData[0]?.value} className="w-full text-center">
+      <Tabs
+        defaultValue={tabsData[0]?.value}
+        className="w-full text-center"
+        onValueChange={onTabChange}
+      >
         <TabsList>
           {tabsData.map((tab) => (
             <TabsTrigger key={tab.value} value={tab.value}>
@@ -63,11 +47,12 @@ const PostTabs = () => {
             </TabsTrigger>
           ))}
         </TabsList>
-        {tabsData.map((tab) => (
-          <TabsContent key={tab.value} value={tab.value} className="mt-10">
-            {tab.content}
-          </TabsContent>
-        ))}
+        {!showTabsOnly &&
+          tabsData.map((tab) => (
+            <TabsContent key={tab.value} value={tab.value} className="mt-10">
+              {tab.content}
+            </TabsContent>
+          ))}
       </Tabs>
     </div>
   );

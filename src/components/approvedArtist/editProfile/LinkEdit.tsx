@@ -8,7 +8,7 @@ import { UPDATE_SOCIAL_LINK } from "@/gql/profile";
 import ErrorMessage from "@/components/errorMessage";
 
 
-const LinkEdit = ({ socialLink, userId }: { socialLink: ArtistValidation | undefined; userId: string | undefined}) => {
+const LinkEdit = ({ socialLink, userId }: { socialLink: ArtistValidation; userId: string }) => {
   const [links, setLinks] = useState({
     facebook: socialLink?.facebookLink || "",
     instagram: socialLink?.instagramLink || "",

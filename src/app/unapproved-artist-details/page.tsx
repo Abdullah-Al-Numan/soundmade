@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { APPROVED_ARTIST } from "@/gql/artist";
@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { getMediaUrl } from "@/utils/getMediaUrl";
 import type { ArtistData } from "@/types";
 
-const ArtistDetailsContent = () => {
+const ArtistDetails = () => {
     const [approveArtist, { loading: mutationLoading }] = useMutation(APPROVED_ARTIST);
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -18,6 +18,7 @@ const ArtistDetailsContent = () => {
     }
 
     const artistData: ArtistData = JSON.parse(decodeURIComponent(artistDataString));
+
 
     const handleApproveArtist = async () => {
         try {
@@ -103,11 +104,5 @@ const ArtistDetailsContent = () => {
         </div>
     );
 };
-
-const ArtistDetails = () => (
-    <Suspense fallback={<div>Loading artist details...</div>}>
-        <ArtistDetailsContent />
-    </Suspense>
-);
 
 export default ArtistDetails;

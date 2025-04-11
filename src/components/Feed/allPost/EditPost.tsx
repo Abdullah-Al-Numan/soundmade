@@ -55,7 +55,7 @@ const EditPost = ({ post, onClose }) => {
         <DialogHeader>
           <DialogTitle>Edit post</DialogTitle>
           <DialogDescription>
-            Make changes to your post here. Click save when you &apos; re done.
+            Make changes to your post here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

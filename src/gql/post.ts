@@ -7,3 +7,12 @@ export const CREATE_POST = gql`
     }
   }
 `;
+
+export const UPDATE_POST = gql`
+  mutation UpdatePost($id: ID!, $updatePostInput: PostInput!) {
+    updatePost(id: $id, updatePostInput: $updatePostInput) {
+      message
+    }
+  }
+`;
+

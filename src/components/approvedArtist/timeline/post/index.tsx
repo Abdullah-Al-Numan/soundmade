@@ -7,6 +7,7 @@ import { ArtistData } from "@/types";
 import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "@/gql/post";
 import { uploadFile } from "@/utils/aws";
+import { getApprovedArtistDetailsUrl } from "@/utils/navigation";
 
 const POST = () => {
   const [images, setImages] = useState<File[]>([]);
@@ -74,7 +75,13 @@ const POST = () => {
       await createPost({
         variables: { createPostInput: postData },
       });
-      alert("Post created successfully.");
+
+      const userConfirmed = window.confirm("Post created successfully.");
+      if (userConfirmed) {
+        const redirectUrl = getApprovedArtistDetailsUrl(artistData);
+
+        window.location.href = redirectUrl;
+      }
       setImages([]);
       setDescription("");
       setIsToggledPaid(false);

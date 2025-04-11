@@ -9,6 +9,7 @@ import { CREATE_VIDEO } from "@/gql/video";
 import { useSearchParams } from "next/navigation";
 import { ArtistData } from "@/types";
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_MB } from "@/utils/fileSizeLimitation";
+import { getApprovedArtistDetailsUrl } from "@/utils/navigation";
 
 const Video = () => {
   const [videos, setVideos] = useState<string[]>([]);
@@ -29,11 +30,13 @@ const Video = () => {
     decodeURIComponent(artistDataString)
   );
 
-  const handleVideoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (!event.target.files) return;
-  
+
     const files = Array.from(event.target.files);
-  
+
     const validFiles = files.filter((file) => {
       if (file.size > MAX_FILE_SIZE) {
         alert(`File size must be less than ${MAX_FILE_SIZE_MB}MB`);
@@ -41,16 +44,17 @@ const Video = () => {
       }
       return true;
     });
-  
-    const videoPromises = validFiles.map((file) => 
-      new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      })
+
+    const videoPromises = validFiles.map(
+      (file) =>
+        new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        })
     );
-    setVideoFiles(files)
-  
+    setVideoFiles(validFiles);
+
     try {
       const videoData = await Promise.all(videoPromises);
       setVideos((prevVideos) => [...prevVideos, ...videoData]);
@@ -59,20 +63,21 @@ const Video = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!videos.length) {
       alert("Please upload a video.");
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const file = videoFiles[0];
-      const videoBlob = await fetch(videos[0]).then(res => res.blob());
-  
+      const videoBlob = await fetch(videos[0]).then((res) => res.blob());
+
       const response = await uploadFile(videoBlob, file.name, file.type);
-  
+
       await createVideo({
         variables: {
           createVideoInput: {
@@ -85,9 +90,13 @@ const Video = () => {
           },
         },
       });
-  
+
       resetForm();
-      alert("Video published successfully.");
+      const userConfirmed = window.confirm("Video created successfully.");
+      if (userConfirmed) {
+        const redirectUrl = getApprovedArtistDetailsUrl(artistData);
+        window.location.href = redirectUrl;
+      }
     } catch (error) {
       console.error("Error submitting video:", error);
       alert("Failed to create video. Please try again.");
@@ -95,7 +104,7 @@ const Video = () => {
       setLoading(false);
     }
   };
-  
+
   const resetForm = () => {
     setVideos([]);
     setVideoFiles([]);
@@ -105,8 +114,8 @@ const Video = () => {
   };
 
   return (
-    <div className="w-1/2 m-auto">
-      <div className="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-lg ">
+    <form onSubmit={handleSubmit} className="w-1/2 m-auto">
+      <div className="flex flex-col items-center p-4 border-2 border-dashed border-gray-300 rounded-lg">
         <label className="cursor-pointer">
           <input
             type="file"
@@ -140,13 +149,13 @@ const Video = () => {
       </div>
       <div className="my-2">
         <Textarea
-          placeholder="Add text (max.300 characters)"
+          placeholder="Add text (max. 300 characters)"
           className="min-h-28"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-      <div className="flex gap-4 my-2">
+      <div className="flex gap-4 my-2 items-center">
         <p>Gold</p>
         <Switch checked={isPaid} onCheckedChange={setIsPaid} />
       </div>
@@ -155,12 +164,12 @@ const Video = () => {
         name="submit"
         variant="primary"
         className="w-full"
-        onClick={handleSubmit}
         disabled={loading}
       >
         {loading ? <span className="animate-spin">🔄</span> : "Publish"}
       </Button>
-    </div>
+    </form>
   );
 };
+
 export default Video;

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-const CustomSelect = ({ options, placeholder, value, onChange, className}) => {
+const CustomSelect = ({ options, placeholder, value, onChange }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
 
@@ -27,11 +27,11 @@ const CustomSelect = ({ options, placeholder, value, onChange, className}) => {
   };
 
   const selectedLabel = options.find(
-    (option) => option.value === value
+    (option: any) => option.value === value
   )?.label;
 
   return (
-    <div className={`relative ${className || ""}`} ref={selectRef}>
+    <div className="relative" ref={selectRef}>
       <div
         className="border p-2 min-w-44 cursor-pointer flex justify-between items-center rounded-md transition-all duration-200 ease-in-out"
         onClick={() => setIsOpen(!isOpen)}
@@ -47,7 +47,7 @@ const CustomSelect = ({ options, placeholder, value, onChange, className}) => {
       </div>
       {isOpen && (
         <div className="absolute z-10 w-full mt-2 border bg-white shadow-lg rounded-md transition-all duration-200 ease-in-out">
-          {options.map(({ label, value }) => (
+          {options.map(({ label, value }: any) => (
             <div
               key={value}
               className="p-2 cursor-pointer hover:bg-gray-100 text-sm"

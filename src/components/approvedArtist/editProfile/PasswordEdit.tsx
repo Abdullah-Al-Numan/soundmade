@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_ADMIN_PASSWORD } from "@/gql/profile";
 import { GraphQLResponseError } from "@/types";
 
-const PasswordEdit = ({ email }: { email: string | undefined }) => {
+const PasswordEdit = ({ email }: { email: string }) => {
   const [formData, setFormData] = useState({
     password: "",
     repeatPassword: "",

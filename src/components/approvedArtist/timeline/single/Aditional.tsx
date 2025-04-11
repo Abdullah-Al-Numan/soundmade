@@ -32,7 +32,6 @@ const Aditional = () => {
           placeholder="Select Language"
           value={language}
           onChange={setLanguage}
-          className={""}
         />
       </div>
       <div className="text-start my-2">

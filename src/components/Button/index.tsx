@@ -9,7 +9,7 @@ interface IButton {
   type?: "submit" | "button" | "reset";
   customClass?: string;
   children?: React.ReactNode;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
 }
@@ -32,10 +32,11 @@ export default function Button({
   return (
     <div className={position}>
       <button
-        className={`${variant === "primary" ? "text-white" : "text-black"} 
+        className={`${variant === "primary" || variant === "danger" ? "text-white" : "text-black"} 
                     transition 
                     ${variant === "primary" ? "bg-regularAccent" : ""} 
                     ${variant === "secondary" ? "bg-slate-200" : ""} 
+                    ${variant === "danger" ? "bg-red-500" : ""} 
                     focus:ring-4 
                     focus:ring-cyan-200 capitalize
                     font-semibold rounded-md text-sm/6 text-center 

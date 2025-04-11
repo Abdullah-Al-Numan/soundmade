@@ -59,6 +59,22 @@ export interface ArtistData {
   validation?: ArtistValidation;
 }
 
+export interface PaymentInfoData {
+  id: string;
+  customerName: string;
+  transactionIdentifier: string;
+  purchaseDate: string;
+  status: string;
+  users: {
+    fullName: string;
+    email: string;
+  };
+  artists: {
+    fullName: string;
+    email: string;
+  };
+}
+
 type GraphQLError = {
   message: string;
 };
@@ -83,3 +99,77 @@ export type ProfileEditType = {
   };
   onClose: () => void;
 };
+
+export interface ArtistInfoProps {
+  artist: ArtistData;
+}
+
+export interface PostTableProps {
+  posts: PostData[];
+  artist: ArtistData;
+  onDeletePress: (post: PostData) => void;
+  setShowCreatePage: (value: boolean) => void;
+  refetchPosts: () => void;
+}
+
+export interface PostTabsProps {
+  showTabsOnly?: boolean;
+  onTabChange?: (tab: string) => void;
+}
+
+export interface PostData {
+  isPaid: boolean;
+  user: {
+    id: string;
+    fullName: string;
+  };
+  id: string;
+  images: string;
+  type: string;
+  createdAt: string;
+  description: string;
+  title: string;
+}
+export interface ConfirmDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  description: string;
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm: () => void;
+  confirmButtonClass?: string;
+  cancelButtonClass?: string;
+}
+export interface PostTableProps {
+  posts: PostData[];
+  artist: ArtistData;
+  onDeletePress: (post: PostData) => void;
+  setShowCreatePage: (value: boolean) => void;
+}
+export interface VideoType {
+  id: string;
+  title: string;
+  description: string;
+  video: string;
+  createdAt: string;
+  updatedAt: string;
+  isPublished: boolean;
+  isPaid: boolean;
+  isBlur: boolean;
+  userId: string;
+}
+
+export interface UserData {
+  category: string;
+  location: {
+    name: string;
+  };
+  email: string;
+  fullName: string;
+  id: string;
+  profile: {
+    profilePic: string;
+    fullName: string;
+  };
+}

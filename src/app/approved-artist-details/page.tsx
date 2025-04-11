@@ -1,6 +1,6 @@
 "use client";
 import ApprovedArtistDetails from "@/components/approvedArtist/artistDetails";
-import React, { Suspense } from "react";
+import React from "react";
 
 const ApprovedArtistDetailsPage = () => {
   return (
@@ -10,10 +10,4 @@ const ApprovedArtistDetailsPage = () => {
   );
 };
 
-const ApprovedArtistDetailsSuspense = () => (
-    <Suspense fallback={<div>Loading artist details...</div>}>
-        <ApprovedArtistDetailsPage />
-    </Suspense>
-);
-
-export default ApprovedArtistDetailsSuspense;
+export default ApprovedArtistDetailsPage;

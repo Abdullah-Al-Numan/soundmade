@@ -7,3 +7,11 @@ export const CREATE_VIDEO = gql`
     }
   }
 `;
+
+export const UPDATE_VIDEO = gql`
+  mutation UpdateVideo($id: ID!, $updateVideoInput: VideoInput!) {
+    updateVideo(id: $id, updateVideoInput: $updateVideoInput) {
+      message
+    }
+  }
+`;
