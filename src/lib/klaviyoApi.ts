@@ -3,23 +3,22 @@
  */
 
 const KLAVIYO_API_BASE_URL = "https://a.klaviyo.com/api"
-// const KPK = "pk_037e641ac8baf1225068551b3a4915fca2"
-//const KLAVIYO_API_VERSION = "2023-10-15"
+
 
 
 /**
  * Get headers for Klaviyo API requests
  */
 const getHeaders = () => {
-  if (!process.env.NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY) {
-    console.error("❌ Missing required environment variable: NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY");
+  if (!process.env.KLAVIYO_PRIVATE_KEY) {
+    console.error("❌ Missing required environment variable: KLAVIYO_PRIVATE_KEY");
     throw new Error("Server configuration error - Missing Klaviyo API key");
   }
   return {
     "accept": 'application/vnd.api+json',
     "revision": '2024-10-15',
     'content-type': 'application/vnd.api+json',
-    "Authorization": `Klaviyo-API-Key ${process.env.NEXT_PUBLIC_KLAVIYO_PRIVATE_KEY}`,
+    "Authorization": `Klaviyo-API-Key ${process.env.KLAVIYO_PRIVATE_KEY}`,
   };
 };
 
@@ -93,14 +92,13 @@ export async function getCampaignMessageContent(messageId: string) {
 /**
  * Get templates from Klaviyo
  */
-export async function getTemplates(page = 0, pageSize = 10) {
+export async function getTemplates() {
   try {
     const response = await fetch(`${KLAVIYO_API_BASE_URL}/templates`, {
       method: "GET",
       headers: getHeaders(),
       cache: "no-store",
     })
-    console.log(page, pageSize)
     /*  if (!response.ok) {
        throw new Error(`Failed to fetch templates: ${response.status}`)
      } */

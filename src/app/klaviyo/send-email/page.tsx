@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import SendEmailForm from "@/components/klaviyo/sendEmailForm";
 import { getTemplates, getLists } from "@/lib/klaviyoApi";
 
@@ -7,7 +8,7 @@ export const metadata = {
 };
 
 export default async function SendEmailPage() {
-  const templatesData = await getTemplates(0, 50).catch(() => null);
+  const templatesData = await getTemplates().catch(() => null);
   const listsData = await getLists().catch(() => null);
 
   return (

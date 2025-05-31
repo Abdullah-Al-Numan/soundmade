@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PaginatedTable from "@/components/paginatedTable";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import { ArtistData, VideoType } from "@/types";
 import ViewVideo from "./ViewVideo";
 import EditVideo from "./EditVideo";
@@ -65,6 +65,7 @@ const VideoTable: React.FC<VideoTableProps> = ({
         onClick={() => setShowCreatePage(true)}
         title="Create"
         customClass="text-sm px-3 py-1"
+        data-testid="create-post-button"
       />
       <h2 className="text-xl font-semibold mb-2">Latest Videos</h2>
       <PaginatedTable
@@ -98,17 +99,20 @@ const VideoTable: React.FC<VideoTableProps> = ({
                   onClick={() => handleViewPress(video)}
                   title="View"
                   customClass="text-sm px-3 py-1"
+                  data-testid="view-video-button"
                 />
                 <Button
                   onClick={() => handleEditPress(video)}
                   title="Edit"
                   customClass="text-sm px-3 py-1"
+                  data-testid="edit-video-button"
                 />
                 <Button
                   onClick={() => onDeletePress(video)}
                   title="Delete"
                   variant="danger"
                   customClass="text-[8px] px-1.5 py-1"
+                  data-testid="delete-video-button"
                 />
               </td>
             </tr>

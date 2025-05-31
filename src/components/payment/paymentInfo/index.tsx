@@ -47,12 +47,11 @@ const PaymentInfo = () => {
     );
   }
 
-
   if (error) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="text-red-500 text-sm">
-           No Payment information found.
+          Failed to load payment information. Please try again.
         </div>
       </div>
     );

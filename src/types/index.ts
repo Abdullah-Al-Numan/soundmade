@@ -173,3 +173,38 @@ export interface UserData {
     fullName: string;
   };
 }
+
+export interface ReportUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export interface ReportData {
+  id: string;
+  reportedContentId: string;
+  reportedContentType: string;
+  reportedBy: ReportUser;
+  reportedTo: ReportUser;
+  reportType: string;
+  comment: string;
+  status: "pending" | "resolved";
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ContactData {
+  id: string;
+  reason: string;
+  comment: string;
+  status: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}

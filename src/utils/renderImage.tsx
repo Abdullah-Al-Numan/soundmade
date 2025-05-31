@@ -1,4 +1,4 @@
-
+import Image from "next/image";
 export const renderImage = (
   img: string,
   index: number,
@@ -6,7 +6,7 @@ export const renderImage = (
 ) => {
   return (
     <div key={index} className="relative">
-      <img
+      <Image
         src={img || "/placeholder.svg"}
         alt={`Uploaded Image ${index + 1}`}
         className="w-20 h-20 object-cover rounded-lg"

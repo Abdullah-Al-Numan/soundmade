@@ -9,9 +9,13 @@ export const metadata = {
 };
 
 export default async function CampaignDetailPage({
-  params
-}: any) {
-  const campaignData = await getCampaignById(params.id).catch(() => null);
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  const campaignData = await getCampaignById(id).catch(() => null);
 
   if (!campaignData) {
     return (
@@ -58,12 +62,13 @@ export default async function CampaignDetailPage({
                   <dt className="text-sm font-medium text-gray-500">Status</dt>
                   <dd className="mt-1 text-sm text-gray-900">
                     <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${campaign.attributes.status === "sent"
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        campaign.attributes.status === "sent"
                           ? "bg-green-100 text-green-800"
                           : campaign.attributes.status === "draft"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-blue-100 text-blue-800"
-                        }`}
+                      }`}
                     >
                       {campaign.attributes.status}
                     </span>
@@ -85,9 +90,9 @@ export default async function CampaignDetailPage({
                   <dd className="mt-1 text-sm text-gray-900">
                     {campaign.attributes.send_time
                       ? format(
-                        new Date(campaign.attributes.send_time),
-                        "MMM d, yyyy h:mm a"
-                      )
+                          new Date(campaign.attributes.send_time),
+                          "MMM d, yyyy h:mm a"
+                        )
                       : "Not sent"}
                   </dd>
                 </div>

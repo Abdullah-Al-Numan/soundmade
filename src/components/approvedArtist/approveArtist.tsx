@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import PaginatedTable from "@/components/paginatedTable";
 import { GET_APPROVED_ARTIST_LIST } from "@/gql/artist";
 import { getMediaUrl } from "@/utils/getMediaUrl";
@@ -174,25 +174,23 @@ const ApprovedArtist = () => {
         />
       )}
 
-      <Dialog
-        open={showDeleteModal}
-        onOpenChange={setShowDeleteModal}
-      >
-        <DialogContent className="sm:max-w-md">
+      <Dialog open={showDeleteModal} onOpenChange={setShowDeleteModal}>
+        <DialogContent className="sm:max-w-md" data-testid="confirmation-modal">
           <DialogHeader>
-            <DialogTitle >Delete Artist</DialogTitle>
-            <DialogDescription >
+            <DialogTitle data-testid="modal-title">Delete Artist</DialogTitle>
+            <DialogDescription data-testid="modal-message">
               Are you sure you want to delete{" "}
               {artistToDelete?.fullName || "this artist"}?
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end space-x-2 mt-4">
             <DialogClose asChild>
-              <ShadcnButton  variant="primary">
+              <ShadcnButton data-testid="cancel-button" variant="primary">
                 Cancel
               </ShadcnButton>
             </DialogClose>
             <ShadcnButton
+              data-testid="confirm-button"
               variant="destructive"
               onClick={handleDeleteArtist}
             >
@@ -211,6 +209,7 @@ const ApprovedArtist = () => {
           <div className="flex justify-end mt-4">
             <DialogClose asChild>
               <ShadcnButton
+                data-testid="message-button"
                 variant="primary"
                 onClick={handleSuccessModalClose}
               >

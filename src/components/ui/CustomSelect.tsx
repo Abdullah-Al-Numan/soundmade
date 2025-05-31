@@ -1,9 +1,10 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 const CustomSelect = ({ options, placeholder, value, onChange }: any) => {
   const [isOpen, setIsOpen] = useState(false);
-  const selectRef = useRef(null);
+  const selectRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +41,7 @@ const CustomSelect = ({ options, placeholder, value, onChange }: any) => {
           {selectedLabel || placeholder}
         </span>
         {isOpen ? (
-          <ChevronUp className="h-4 w-4 text-gray-500" /> 
+          <ChevronUp className="h-4 w-4 text-gray-500" />
         ) : (
           <ChevronDown className="h-4 w-4 text-gray-500" />
         )}

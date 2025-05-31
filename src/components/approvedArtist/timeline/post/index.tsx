@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_POST } from "@/gql/post";
 import { uploadFile } from "@/utils/aws";
 import { getApprovedArtistDetailsUrl } from "@/utils/navigation";
+import Image from "next/image";
 
 const POST = () => {
   const [images, setImages] = useState<File[]>([]);
@@ -107,7 +108,7 @@ const POST = () => {
             {images.length > 0 ? (
               <div className="grid grid-cols-3 gap-2">
                 {images.map((img, index) => (
-                  <img
+                  <Image
                     key={index}
                     src={URL.createObjectURL(img)}
                     alt="Uploaded"

@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from "react";
 import {
   languageOptions,
@@ -13,16 +14,18 @@ import { Label } from "@/components/ui/label";
 import CustomSelect from "@/components/ui/CustomSelect";
 
 const MiddleForm = () => {
-  const [date, setDate] = useState<Date | null>(null);  // Initialize as null
+  const [date, setDate] = useState<Date | null>(null);
   const [language, setLanguage] = useState<string | null>("");
   const [primaryGenre, setPrimaryGenre] = useState<string | null>("");
   const [secondaryGenre, setSecondaryGenre] = useState<string | null>("");
   const [preRelease, setPreRelease] = useState<string>("");
-  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);  // Added state for calendar visibility
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
-  const handleDateSelect = (selectedDate: Date) => {
-    setDate(selectedDate);
-    setIsCalendarOpen(false);  // Close calendar after selecting a date
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+      setIsCalendarOpen(false);
+    }
   };
 
   return (
@@ -71,7 +74,7 @@ const MiddleForm = () => {
             <div className="absolute z-10 mt-2 p-2 border rounded-md bg-white shadow-lg">
               <Calendar
                 mode="single"
-                selected={date}
+                selected={date ?? undefined}
                 onSelect={handleDateSelect}
                 initialFocus
               />

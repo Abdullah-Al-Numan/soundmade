@@ -7,7 +7,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_ADMIN_PASSWORD } from "@/gql/profile";
 import { GraphQLResponseError } from "@/types";
 
-const PasswordEdit = ({ email }: { email: string }) => {
+const PasswordEdit = ({ email }: { email?: string }) => {
   const [formData, setFormData] = useState({
     password: "",
     repeatPassword: "",
@@ -25,6 +25,12 @@ const PasswordEdit = ({ email }: { email: string }) => {
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email) {
+      setErrorMessage("Email is missing.");
+      return;
+    }
+
     if (!isFormValid) {
       setErrorMessage("Please fill out the form correctly.");
       return;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import PaginatedTable from "@/components/paginatedTable";
 import { Input } from "@/components/ui/input";
 import { getMediaUrl } from "@/utils/getMediaUrl";
@@ -52,12 +52,12 @@ const AllPost = () => {
       post?.createBy?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleEdit = (post) => {
+  const handleEdit = (post: any) => {
     setSelectedPost(post);
     setIsEditOpen(true);
   };
 
-  const handleDelete = (post) => {
+  const handleDelete = (post: any) => {
     setSelectedPost(post);
     setIsDeleteDialogOpen(true);
   };

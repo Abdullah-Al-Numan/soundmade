@@ -13,11 +13,10 @@ import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 
-const EditPost = ({ post, onClose }) => {
+const EditPost = ({ post, onClose }: any) => {
   const [name, setName] = useState(post.text);
   const [username, setUsername] = useState(post.createBy);
   const [images, setImages] = useState(post.pic || []);
-
 
   useEffect(() => {
     setName(post.text);
@@ -25,15 +24,15 @@ const EditPost = ({ post, onClose }) => {
     setImages(post.pic || []);
   }, [post]);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: any) => {
     const files = e.target.files;
-    const newImages = [];
+    const newImages: (string | ArrayBuffer | null)[] = [];
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
       reader.onloadend = () => {
         newImages.push(reader.result);
         if (newImages.length === files.length) {
-          setImages((prevImages) => [...prevImages, ...newImages]);
+          setImages((prevImages: any) => [...prevImages, ...newImages]);
         }
       };
       reader.readAsDataURL(files[i]);
@@ -45,8 +44,8 @@ const EditPost = ({ post, onClose }) => {
     onClose();
   };
 
-  const handleRemoveImage = (index) => {
-    setImages(images.filter((_, i) => i !== index)); // Remove image by index
+  const handleRemoveImage = (index: number) => {
+    setImages(images.filter((_: any, i: number) => i !== index)); // Remove image by index
   };
 
   return (
@@ -55,7 +54,7 @@ const EditPost = ({ post, onClose }) => {
         <DialogHeader>
           <DialogTitle>Edit post</DialogTitle>
           <DialogDescription>
-            Make changes to your post here. Click save when you&apos;re done.
+            Make changes to your post here. Click save when you are done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -66,7 +65,7 @@ const EditPost = ({ post, onClose }) => {
             <div className="col-span-3">
               {images.length > 0 ? (
                 <div className="flex gap-2 flex-wrap">
-                  {images.map((image, index) => (
+                  {images.map((image: string, index: number) => (
                     <div key={index} className="relative">
                       <Image
                         height={20}

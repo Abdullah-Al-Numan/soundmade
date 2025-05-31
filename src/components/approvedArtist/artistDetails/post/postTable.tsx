@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { getMediaUrl } from "@/utils/getMediaUrl";
 import PaginatedTable from "@/components/paginatedTable";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import { PostData, PostTableProps } from "@/types";
 import { tableHeadData } from "@/utils/tableHeadData";
 import ViewPost from "./ViewPost";
@@ -19,7 +19,7 @@ const PostTable: React.FC<PostTableProps> = ({
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = React.useState<PostData | null>(null);
 
-  const renderPostImage = (images: string[] | undefined) => {
+  const renderPostImage = (images: string | string[] | undefined) => {
     if (images && images.length > 0) {
       return (
         <Image
@@ -81,6 +81,7 @@ const PostTable: React.FC<PostTableProps> = ({
           onClick={() => setShowCreatePage(true)}
           title="Create"
           customClass="text-sm px-3 py-1"
+          data-testid="create-post-button"
         />
       </div>
       <PaginatedTable
@@ -96,7 +97,7 @@ const PostTable: React.FC<PostTableProps> = ({
             <td className="px-3 py-3">
               <p className="text-sm text-slate-500">{rowIndex + 1}</p>
             </td>
-            <td className="px-3 py-3">{renderPostImage([`${post.images}`])}</td>
+            <td className="px-3 py-3">{renderPostImage(post?.images)}</td>
             <td className="px-3 py-3">
               <p className="text-sm text-slate-500">
                 {truncateDescription(post.description)}
@@ -112,17 +113,20 @@ const PostTable: React.FC<PostTableProps> = ({
                 onClick={() => handleViewPress(post)}
                 title="View"
                 customClass="text-sm px-3 py-1"
+                data-testid="view-post-button"
               />
               <Button
                 onClick={() => handleEditPress(post)}
                 title="Edit"
                 customClass="text-sm px-3 py-1"
+                data-testid="edit-post-button"
               />
               <Button
                 onClick={() => onDeletePress(post)}
                 title="Delete"
                 variant="danger"
                 customClass="text-[8px] px-1.5 py-1"
+                data-testid="delete-post-button"
               />
             </td>
           </tr>

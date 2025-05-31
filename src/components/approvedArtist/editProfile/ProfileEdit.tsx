@@ -95,7 +95,7 @@ const ProfileEdit = ({ artistinfo }: ProfileEditType) => {
       const { data } = await updateArtist({ variables: { updateArtistInput } });
       console.log("Artist updated successfully:", data);
       setIsSubmitting(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error updating artist:", error);
       setErrorMessage(error?.message || "Error updating profile.");
       setIsSubmitting(false);

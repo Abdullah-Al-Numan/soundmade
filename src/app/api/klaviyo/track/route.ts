@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate a random token for the event
-    const token = process.env.NEXT_PUBLIC_KLAVIYO_API_KEY
+    const token = process.env.KLAVIYO_API_KEY
 
     if (!token) {
       return NextResponse.json({ error: "Klaviyo API key not configured" }, { status: 500 })

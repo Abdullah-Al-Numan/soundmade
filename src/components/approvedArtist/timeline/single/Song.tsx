@@ -1,3 +1,4 @@
+'use client';
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ const Song = () => {
               className="w-1/2"
               placeholder="Select role"
               value={artist.role}
-              onChange={(role) => {
+              onChange={(role: any) => {
                 const updatedArtists = [...artists];
                 updatedArtists[index].role = role;
                 setArtists(updatedArtists);
