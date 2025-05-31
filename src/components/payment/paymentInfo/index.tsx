@@ -51,7 +51,7 @@ const PaymentInfo = () => {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="text-red-500 text-sm">
-          Failed to load payment information. Please try again.
+          No payment information found. Please try again later.
         </div>
       </div>
     );
